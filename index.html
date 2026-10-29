@@ -1,0 +1,1111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="SmartStop – Interactive Smart Bus Stop Infotainment Kiosk for Gandhipuram, Coimbatore">
+  <title>SmartStop – Smart Bus Stop Infotainment Kiosk (Coimbatore)</title>
+  <link rel="stylesheet" href="style.css">
+  <!-- Google Fonts: Inter for clean readability and Mukta Malar for Tamil typography -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Mukta+Malar:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+<body class="kiosk-mode font-normal theme-white" data-lang="en">
+
+  <!-- ============================================================== -->
+  <!-- TOTEM SIMULATION CONTAINER (PHYSICAL KIOSK HARDWARE CASING)    -->
+  <!-- ============================================================== -->
+  <div class="totem-scene mode-totem" id="totem-scene">
+
+    <!-- Floating Mode Switcher Widget for Demonstrators -->
+    <aside class="totem-mode-bar" aria-label="Kiosk Hardware Simulation Mode">
+      <div class="mode-bar-inner">
+        <div class="mode-bar-brand">
+          <span class="mode-badge-dot"></span>
+          <span class="mode-bar-title" data-i18n="mode_bar_title">KIOSK HARDWARE SIMULATOR</span>
+        </div>
+        <div class="mode-toggle-group">
+          <button class="mode-btn active" id="btn-mode-totem" title="View inside realistic outdoor bus stop totem frame">
+            📟 <span data-i18n="mode_btn_totem">Physical Kiosk Totem</span>
+          </button>
+          <button class="mode-btn" id="btn-mode-fullscreen" title="View edge-to-edge touchscreen display without hardware chassis">
+            🖥️ <span data-i18n="mode_btn_fullscreen">Fullscreen Touch Display</span>
+          </button>
+        </div>
+
+        <div class="mode-bar-divider" aria-hidden="true"></div>
+
+        <!-- Language Switcher: English / Tamil -->
+        <div class="lang-switcher" role="group" aria-label="Language selection">
+          <button class="lang-btn active" id="btn-lang-en" data-lang-choice="en" aria-pressed="true">
+            <span class="lang-flag">🇬🇧</span> English
+          </button>
+          <button class="lang-btn" id="btn-lang-ta" data-lang-choice="ta" aria-pressed="false">
+            <span class="lang-flag">🇮🇳</span> தமிழ்
+          </button>
+        </div>
+
+        <!-- Accessibility Font Size Toggle -->
+        <div class="a11y-font-controls" aria-label="Font Size Controls">
+          <button class="font-btn active" id="btn-font-normal" title="Normal Font Size" aria-label="Normal Font Size">A</button>
+          <button class="font-btn" id="btn-font-large" title="Large Font Size for High Visibility" aria-label="Large Font Size">A+</button>
+        </div>
+
+        <!-- Kiosk Reset / Start Again Button -->
+        <button class="reset-btn" id="btn-kiosk-reset" title="Reset kiosk to home screen and clear inputs" aria-label="Reset Kiosk">
+          <svg class="reset-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path>
+            <path d="M3 3v5h5"></path>
+          </svg>
+          <span data-i18n="btn_reset">Reset</span>
+        </button>
+      </div>
+    </aside>
+
+    <!-- The Physical Totem Pillar (Modern Architectural White / Silver) -->
+    <div class="kiosk-physical-totem">
+
+      <!-- 1. TOTEM ROOF CANOPY & ILLUMINATED SIGN -->
+      <div class="totem-header-canopy">
+        <div class="totem-speaker-grill left" title="Audio Announcement Speaker">
+          <span></span><span></span><span></span><span></span><span></span>
+        </div>
+
+        <div class="totem-roof-brand">
+          <div class="totem-cctv-housing" title="24/7 Security CCTV Camera">
+            <div class="cctv-lens">
+              <span class="cctv-blinking-rec"></span>
+            </div>
+            <span class="cctv-label">CCTV 24/7</span>
+          </div>
+
+          <div class="totem-lightbox-sign">
+            <span class="lightbox-agency" data-i18n="totem_agency">TNSTC COIMBATORE DIVISION</span>
+            <span class="lightbox-stop" data-i18n="totem_stop">SMART TRANSIT HUB • GANDHIPURAM CENTRAL</span>
+          </div>
+        </div>
+
+        <div class="totem-speaker-grill right" title="Audio Announcement Speaker">
+          <span></span><span></span><span></span><span></span><span></span>
+        </div>
+      </div>
+
+      <!-- 2. TOUCHSCREEN BEZEL & ACTIVE SCREEN FRAME -->
+      <div class="totem-screen-chassis">
+        <div class="screen-glass-rim">
+
+          <!-- ============================================================== -->
+          <!-- TOP KIOSK STATUS BAR (PERSISTENT ACROSS ALL SCREENS)           -->
+          <!-- ============================================================== -->
+          <header class="kiosk-status-bar" role="banner">
+            <!-- 1. LEFT: OFFICIAL TNSTC LOGO + "Smart" "Stop" -->
+            <div class="status-left">
+              <div class="brand-badge" id="btn-brand-home" role="button" tabindex="0" title="Return to Home screen">
+                <img class="tnstc-logo-img" src="tnstc-logo.png" alt="TNSTC Government of Tamil Nadu Official Emblem">
+                <div class="brand-text">
+                  <span class="brand-word-smart">Smart</span>
+                  <span class="brand-word-stop">Stop</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- 2. CENTER: DIGITAL CLOCK & DATE WIDGET (12H PRIMARY + 24H SECONDARY + DATE) -->
+            <div class="status-center">
+              <div class="clock-widget" aria-live="polite">
+                <div class="clock-time-12" id="digital-clock">--:--:-- --</div>
+                <div class="clock-time-24" id="digital-clock-24">24h: --:--:--</div>
+                <div class="clock-date" id="digital-date">Loading date...</div>
+              </div>
+            </div>
+
+            <!-- 3. RIGHT: STACKED LOCATION & WEATHER BADGES -->
+            <div class="status-right">
+              <!-- Top Row: Location Badge -->
+              <div class="stop-badge" aria-label="Current Bus Stop Location">
+                <span class="pulse-indicator" aria-hidden="true"></span>
+                <svg class="pin-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                  <circle cx="12" cy="10" r="3"></circle>
+                </svg>
+                <div class="stop-text">
+                  <span class="stop-name" data-i18n="header_stop_name">Gandhipuram Central Bus Stand</span>
+                  <span class="bay-info" data-i18n="header_bays">Bays 1 – 6 • Town Bus Terminal</span>
+                </div>
+              </div>
+
+              <!-- Bottom Row: Weather Badge -->
+              <div class="status-subrow">
+                <div class="weather-widget" title="Current Local Weather">
+                  <svg class="weather-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="12" cy="12" r="5"></circle>
+                    <line x1="12" y1="1" x2="12" y2="3"></line>
+                    <line x1="12" y1="21" x2="12" y2="23"></line>
+                    <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                    <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                    <line x1="1" y1="12" x2="3" y2="12"></line>
+                    <line x1="21" y1="12" x2="23" y2="12"></line>
+                    <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                    <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                  </svg>
+                  <span class="weather-temp">28°C</span>
+                  <span class="weather-city" data-i18n="header_weather_city">Coimbatore</span>
+                </div>
+              </div>
+            </div>
+          </header>
+
+          <!-- ============================================================== -->
+          <!-- SERVICE ANNOUNCEMENT TICKER                                    -->
+          <!-- ============================================================== -->
+          <section class="announcement-bar" role="region" aria-label="Service Announcements">
+            <div class="announcement-tag">
+              <svg class="horn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M11 5L6 9H2v6h4l5 4V5z"></path>
+                <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+              </svg>
+              <span data-i18n="announcement_label">ANNOUNCEMENT</span>
+            </div>
+            <div class="ticker-wrapper" tabindex="0" aria-live="off">
+              <div class="ticker-content" id="ticker-text">
+                Loading live transit announcements...
+              </div>
+            </div>
+          </section>
+
+          <!-- ============================================================== -->
+          <!-- MAIN NAVIGATION BAR (TOUCH TABS)                              -->
+          <!-- ============================================================== -->
+          <nav class="kiosk-nav" role="navigation" aria-label="Kiosk Main Menu">
+            <ul class="nav-list">
+              <li class="nav-item">
+                <button class="nav-tab active" data-view="home" id="tab-home" aria-current="page">
+                  <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                    <polyline points="9 22 9 12 15 12 15 22"></polyline>
+                  </svg>
+                  <span class="tab-label" data-i18n="nav_home">Home</span>
+                </button>
+              </li>
+              <li class="nav-item">
+                <button class="nav-tab" data-view="timings" id="tab-timings">
+                  <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <polyline points="12 6 12 12 16 14"></polyline>
+                  </svg>
+                  <span class="tab-label" data-i18n="nav_timings">Bus Timings</span>
+                </button>
+              </li>
+              <li class="nav-item">
+                <button class="nav-tab" data-view="routes" id="tab-routes">
+                  <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"></polygon>
+                    <line x1="8" y1="2" x2="8" y2="18"></line>
+                    <line x1="16" y1="6" x2="16" y2="22"></line>
+                  </svg>
+                  <span class="tab-label" data-i18n="nav_routes">Route Finder</span>
+                </button>
+              </li>
+              <li class="nav-item">
+                <button class="nav-tab" data-view="fares" id="tab-fares">
+                  <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="2" y="5" width="20" height="14" rx="2"></rect>
+                    <line x1="2" y1="10" x2="22" y2="10"></line>
+                  </svg>
+                  <span class="tab-label" data-i18n="nav_fares">Fares</span>
+                </button>
+              </li>
+              <li class="nav-item">
+                <button class="nav-tab" data-view="info" id="tab-info">
+                  <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <line x1="12" y1="16" x2="12" y2="12"></line>
+                    <line x1="12" y1="8" x2="12.01" y2="8"></line>
+                  </svg>
+                  <span class="tab-label" data-i18n="nav_info">Travel Info</span>
+                </button>
+              </li>
+            </ul>
+          </nav>
+
+          <!-- ============================================================== -->
+          <!-- MAIN CONTENT CONTAINER WITH SWAPPABLE VIEWS                    -->
+          <!-- ============================================================== -->
+          <main class="kiosk-main" id="kiosk-app" role="main">
+
+            <!-- VIEW 1: HOME SCREEN -->
+            <section class="view-panel active" id="view-home" aria-labelledby="home-hero-title">
+              <div class="home-hero-card">
+                <div class="hero-left">
+                  <div class="hero-pill">
+                    <span class="hero-pulse"></span>
+                    <span data-i18n="home_kiosk_system">Smart City Transit Portal</span>
+                  </div>
+                  <h1 class="hero-title" id="home-hero-title" data-i18n="home_title">Welcome to SmartStop</h1>
+                  <p class="hero-subtitle" data-i18n="home_subtitle">Interactive touchscreen passenger information kiosk for Gandhipuram Central Bus Stand, Coimbatore. Touch any service card below to begin.</p>
+                  
+                  <div class="hero-station-card">
+                    <div class="hero-stat">
+                      <span class="stat-number">6</span>
+                      <span class="stat-label" data-i18n="home_stat_bays">Active Bays</span>
+                    </div>
+                    <div class="hero-stat-divider"></div>
+                    <div class="hero-stat">
+                      <span class="stat-number">50+</span>
+                      <span class="stat-label" data-i18n="home_stat_routes">Daily Routes</span>
+                    </div>
+                    <div class="hero-stat-divider"></div>
+                    <div class="hero-stat">
+                      <span class="stat-number">99.4%</span>
+                      <span class="stat-label" data-i18n="home_stat_ontime">On-Time Index</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="hero-right">
+                  <!-- Live Quick Departures Mini-Radar -->
+                  <div class="live-radar-box">
+                    <div class="radar-header">
+                      <div class="radar-title-group">
+                        <span class="live-dot-green"></span>
+                        <h3 data-i18n="home_next_departures">Next Departures</h3>
+                      </div>
+                      <button class="radar-view-all-btn" id="btn-home-view-all-timings" data-i18n="home_view_all">Full Board &rarr;</button>
+                    </div>
+                    <div class="radar-cards-list" id="home-quick-departures">
+                      <!-- Dynamically rendered top 3 next buses -->
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Quick Action Cards (Large Touch Targets) -->
+              <div class="features-grid">
+                <!-- Card 1: Bus Timings -->
+                <article class="feature-card touch-card card-timings" id="card-action-timings" role="button" tabindex="0">
+                  <div class="card-icon-bubble">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                      <circle cx="12" cy="12" r="10"></circle>
+                      <polyline points="12 6 12 12 16 14"></polyline>
+                    </svg>
+                  </div>
+                  <div class="card-content">
+                    <h2 class="card-title" data-i18n="card_timings_title">Bus Timings</h2>
+                    <p class="card-desc" data-i18n="card_timings_desc">Live departure countdowns, platform bays, bus types, and service statuses across Coimbatore.</p>
+                    <div class="card-action-link">
+                      <span data-i18n="card_timings_btn">View Timings</span>
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                    </div>
+                  </div>
+                </article>
+
+                <!-- Card 2: Route Finder -->
+                <article class="feature-card touch-card card-routes" id="card-action-routes" role="button" tabindex="0">
+                  <div class="card-icon-bubble">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                      <polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"></polygon>
+                      <line x1="8" y1="2" x2="8" y2="18"></line>
+                      <line x1="16" y1="6" x2="16" y2="22"></line>
+                    </svg>
+                  </div>
+                  <div class="card-content">
+                    <h2 class="card-title" data-i18n="card_routes_title">Route Finder</h2>
+                    <p class="card-desc" data-i18n="card_routes_desc">Search direct buses from Gandhipuram to Marudhamalai, Pollachi, Saravanampatti IT Corridor, and Airport.</p>
+                    <div class="card-action-link">
+                      <span data-i18n="card_routes_btn">Find Routes</span>
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                    </div>
+                  </div>
+                </article>
+
+                <!-- Card 3: Fares -->
+                <article class="feature-card touch-card card-fares" id="card-action-fares" role="button" tabindex="0">
+                  <div class="card-icon-bubble">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                      <rect x="2" y="5" width="20" height="14" rx="2"></rect>
+                      <line x1="2" y1="10" x2="22" y2="10"></line>
+                    </svg>
+                  </div>
+                  <div class="card-content">
+                    <h2 class="card-title" data-i18n="card_fares_title">Fares & Passes</h2>
+                    <p class="card-desc" data-i18n="card_fares_desc">Sample fares for TNSTC Ordinary, Deluxe, and AC Volvo buses. Free travel guidelines for women.</p>
+                    <div class="card-action-link">
+                      <span data-i18n="card_fares_btn">Calculate Fares</span>
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                    </div>
+                  </div>
+                </article>
+
+                <!-- Card 4: Travel Information -->
+                <article class="feature-card touch-card card-info" id="card-action-info" role="button" tabindex="0">
+                  <div class="card-icon-bubble">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                      <circle cx="12" cy="12" r="10"></circle>
+                      <line x1="12" y1="16" x2="12" y2="12"></line>
+                      <line x1="12" y1="8" x2="12.01" y2="8"></line>
+                    </svg>
+                  </div>
+                  <div class="card-content">
+                    <h2 class="card-title" data-i18n="card_info_title">Travel Information</h2>
+                    <p class="card-desc" data-i18n="card_info_desc">Safety guidelines, wheelchair accessibility, lost & found booth at Gandhipuram, and emergency numbers.</p>
+                    <div class="card-action-link">
+                      <span data-i18n="card_info_btn">Read Guidelines</span>
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                    </div>
+                  </div>
+                </article>
+              </div>
+
+              <!-- Quick Destination Chips (Coimbatore Hubs) -->
+              <div class="quick-destinations-bar">
+                <span class="quick-label" data-i18n="home_quick_search_label">Popular Destinations:</span>
+                <div class="chips-container" id="home-quick-chips">
+                  <button class="dest-chip" data-dest="Marudhamalai">Marudhamalai</button>
+                  <button class="dest-chip" data-dest="Pollachi">Pollachi</button>
+                  <button class="dest-chip" data-dest="Saravanampatti">Saravanampatti (IT SEZ)</button>
+                  <button class="dest-chip" data-dest="Airport">Airport (Sitra)</button>
+                  <button class="dest-chip" data-dest="Ukkadam">Ukkadam</button>
+                  <button class="dest-chip" data-dest="Perur">Perur</button>
+                  <button class="dest-chip" data-dest="Singanallur">Singanallur</button>
+                  <button class="dest-chip" data-dest="Thudiyalur">Thudiyalur</button>
+                </div>
+              </div>
+            </section>
+
+            <!-- VIEW 2: BUS TIMINGS SCREEN -->
+            <section class="view-panel" id="view-timings" aria-labelledby="timings-heading">
+              <div class="section-header">
+                <div class="header-left-title">
+                  <button class="back-home-btn" data-target="home" title="Go back to Home">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"></polyline></svg>
+                    <span data-i18n="btn_home">Home</span>
+                  </button>
+                  <div>
+                    <h1 class="section-title" id="timings-heading" data-i18n="timings_title">Live Bus Timings</h1>
+                    <p class="section-sub" data-i18n="timings_sub">Simulated departure radar for Gandhipuram Central Bus Stand, Coimbatore • Scheduled and expected times</p>
+                  </div>
+                </div>
+
+                <div class="header-right-meta">
+                  <div class="demo-banner-small" data-i18n="demo_timing_note">Simulated Timings • Auto-refreshing in <span id="radar-countdown">15</span>s</div>
+                  <button class="refresh-action-btn" id="btn-manual-refresh" title="Refresh bus radar">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M23 4v6h-6"></path><path d="M1 20v-6h6"></path><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path></svg>
+                    <span data-i18n="btn_refresh">Refresh</span>
+                  </button>
+                </div>
+              </div>
+
+              <!-- Filter and Search Controls -->
+              <div class="filter-controls-card">
+                <div class="search-input-group">
+                  <svg class="search-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                  <input type="text" id="bus-search-input" class="kiosk-input" placeholder="Search by bus number (e.g. 70, 111, 1C) or destination (e.g. Marudhamalai)..." aria-label="Search buses">
+                  <button class="clear-search-btn" id="btn-clear-bus-search" title="Clear search" aria-label="Clear search">&times;</button>
+                </div>
+
+                <div class="filter-pills-row">
+                  <span class="filter-label" data-i18n="filter_bay_label">Platform Bay:</span>
+                  <div class="bay-filter-pills" id="bay-filter-group" role="radiogroup" aria-label="Filter by Bay">
+                    <button class="filter-pill active" data-bay="all" aria-checked="true" data-i18n="filter_all">All Bays</button>
+                    <button class="filter-pill" data-bay="Bay 1" aria-checked="false">Bay 1</button>
+                    <button class="filter-pill" data-bay="Bay 2" aria-checked="false">Bay 2</button>
+                    <button class="filter-pill" data-bay="Bay 3" aria-checked="false">Bay 3</button>
+                    <button class="filter-pill" data-bay="Bay 4" aria-checked="false">Bay 4</button>
+                    <button class="filter-pill" data-bay="Bay 5" aria-checked="false">Bay 5</button>
+                    <button class="filter-pill" data-bay="Bay 6" aria-checked="false">Bay 6</button>
+                  </div>
+                </div>
+
+                <div class="filter-pills-row">
+                  <span class="filter-label" data-i18n="filter_status_label">Service Status:</span>
+                  <div class="status-filter-pills" id="status-filter-group" role="radiogroup" aria-label="Filter by Status">
+                    <button class="filter-pill active" data-status="all" aria-checked="true" data-i18n="filter_all">All</button>
+                    <button class="filter-pill" data-status="Arriving Now" aria-checked="false" data-i18n="status_arriving">Arriving Now</button>
+                    <button class="filter-pill" data-status="On Time" aria-checked="false" data-i18n="status_ontime">On Time</button>
+                    <button class="filter-pill" data-status="Delayed" aria-checked="false" data-i18n="status_delayed">Delayed</button>
+                    <button class="filter-pill" data-status="Boarding" aria-checked="false" data-i18n="status_boarding">Boarding</button>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Results Count & Audio Announcement Trigger -->
+              <div class="table-meta-bar">
+                <span class="results-count-text" id="bus-count-display">Showing all departures</span>
+                <button class="audio-announcement-btn" id="btn-audio-announce" title="Play synthetic audio announcement of next bus">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path></svg>
+                  <span data-i18n="btn_announce_bus">🔊 Announce Next Bus</span>
+                </button>
+              </div>
+
+              <!-- Bus Timings Table / Display Container -->
+              <div class="timings-table-container">
+                <table class="kiosk-table" aria-label="Bus Timings Table">
+                  <thead>
+                    <tr>
+                      <th scope="col" data-i18n="th_bus_no">Bus No</th>
+                      <th scope="col" data-i18n="th_destination">Destination & Route</th>
+                      <th scope="col" data-i18n="th_eta">Expected In</th>
+                      <th scope="col" data-i18n="th_departure">Departure</th>
+                      <th scope="col" data-i18n="th_platform">Platform</th>
+                      <th scope="col" data-i18n="th_type">Bus Service</th>
+                      <th scope="col" data-i18n="th_status">Status</th>
+                    </tr>
+                  </thead>
+                  <tbody id="timings-tbody">
+                    <!-- Dynamically populated rows from script.js -->
+                  </tbody>
+                </table>
+
+                <!-- Empty state when search yields no result -->
+                <div class="empty-state hidden" id="timings-empty-state">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="8" y1="12" x2="16" y2="12"></line></svg>
+                  <h3 data-i18n="empty_timings_title">No Buses Found</h3>
+                  <p data-i18n="empty_timings_desc">No active buses match your search criteria. Try clearing the search query or selecting "All Bays".</p>
+                  <button class="secondary-touch-btn" id="btn-reset-timings-filter" data-i18n="btn_reset_filters">Reset Filters</button>
+                </div>
+              </div>
+            </section>
+
+            <!-- VIEW 3: ROUTE FINDER SCREEN -->
+            <section class="view-panel" id="view-routes" aria-labelledby="routes-heading">
+              <div class="section-header">
+                <div class="header-left-title">
+                  <button class="back-home-btn" data-target="home" title="Go back to Home">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"></polyline></svg>
+                    <span data-i18n="btn_home">Home</span>
+                  </button>
+                  <div>
+                    <h1 class="section-title" id="routes-heading" data-i18n="routes_title">Interactive Route Finder</h1>
+                    <p class="section-sub" data-i18n="routes_sub">Select your starting hub and destination to view direct buses, intermediate stops, and journey duration across Coimbatore</p>
+                  </div>
+                </div>
+                <div class="header-right-meta">
+                  <div class="demo-banner-small" data-i18n="demo_route_note">Sample TNSTC Coimbatore Routes Data</div>
+                </div>
+              </div>
+
+              <!-- Route Selection Card Form -->
+              <div class="route-selector-card">
+                <div class="route-input-wrapper">
+                  <!-- Starting Point -->
+                  <div class="selector-field">
+                    <label for="route-origin" class="field-label">
+                      <span class="dot-origin"></span>
+                      <span data-i18n="label_origin">Starting Point:</span>
+                    </label>
+                    <select id="route-origin" class="kiosk-select" aria-label="Select Starting Point">
+                      <option value="Gandhipuram" selected>Gandhipuram Central Bus Stand (Current Kiosk)</option>
+                      <option value="Ukkadam">Ukkadam Bus Stand</option>
+                      <option value="Singanallur">Singanallur Bus Stand</option>
+                      <option value="Saibaba Colony">Saibaba Colony Bus Stand</option>
+                      <option value="Coimbatore Junction">Coimbatore Junction Railway Station</option>
+                      <option value="Airport">Coimbatore Airport (Sitra)</option>
+                      <option value="Peelamedu">Peelamedu (PSG / TIDEL Park)</option>
+                      <option value="Saravanampatti">Saravanampatti (CHIL SEZ IT Park)</option>
+                      <option value="Marudhamalai">Marudhamalai (Murugan Temple)</option>
+                      <option value="Perur">Perur (Pateeswarar Temple)</option>
+                      <option value="Pollachi">Pollachi (New Bus Stand)</option>
+                      <option value="Sulur">Sulur (Air Force Base)</option>
+                      <option value="Thudiyalur">Thudiyalur Junction</option>
+                      <option value="Eachanari">Eachanari (Vinayagar Temple)</option>
+                      <option value="Madukkarai">Madukkarai Market</option>
+                      <option value="Kovaipudur">Kovaipudur</option>
+                      <option value="Ondipudur">Ondipudur Bus Depot</option>
+                    </select>
+                  </div>
+
+                  <!-- Swap Button -->
+                  <button class="swap-origin-btn" id="btn-swap-route" title="Swap Origin and Destination" aria-label="Swap Origin and Destination">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="17 1 21 5 17 9"></polyline><path d="M3 5h18"></path><polyline points="7 23 3 19 7 15"></polyline><path d="M21 19H3"></path></svg>
+                  </button>
+
+                  <!-- Destination Point (Coimbatore Destinations) -->
+                  <div class="selector-field">
+                    <label for="route-dest" class="field-label">
+                      <span class="dot-dest"></span>
+                      <span data-i18n="label_dest">Destination:</span>
+                    </label>
+                    <select id="route-dest" class="kiosk-select" aria-label="Select Destination">
+                      <option value="" disabled selected data-i18n="select_destination_placeholder">-- Choose a Destination --</option>
+                      <option value="Gandhipuram">Gandhipuram Central Bus Stand</option>
+                      <option value="Marudhamalai">Marudhamalai (Murugan Temple)</option>
+                      <option value="Pollachi">Pollachi (New Bus Stand)</option>
+                      <option value="Saravanampatti">Saravanampatti (CHIL SEZ IT Park)</option>
+                      <option value="Airport">Coimbatore Airport (Sitra / Avinashi Road)</option>
+                      <option value="Perur">Perur (Pateeswarar Temple)</option>
+                      <option value="Sulur">Sulur (Air Force Base / Bus Stand)</option>
+                      <option value="Ukkadam">Ukkadam (Bus Stand / Periyakulam)</option>
+                      <option value="Singanallur">Singanallur (Trichy Road Terminus)</option>
+                      <option value="Saibaba Colony">Saibaba Colony Bus Stand</option>
+                      <option value="Thudiyalur">Thudiyalur (Mettupalayam Road)</option>
+                      <option value="Peelamedu">Peelamedu (PSG Tech / TIDEL Park)</option>
+                      <option value="Madukkarai">Madukkarai (Cement Town)</option>
+                      <option value="Kovaipudur">Kovaipudur (Little Ooty)</option>
+                      <option value="Eachanari">Eachanari (Vinayagar Temple)</option>
+                      <option value="Ondipudur">Ondipudur (Bus Depot)</option>
+                      <option value="Coimbatore Junction">Coimbatore Junction (Central Railway)</option>
+                    </select>
+                  </div>
+
+                  <!-- Search Button -->
+                  <button class="primary-touch-btn" id="btn-find-routes">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                    <span data-i18n="btn_search_route">Find Buses</span>
+                  </button>
+                </div>
+
+                <!-- Quick popular destination preset pills -->
+                <div class="route-presets">
+                  <span class="preset-label" data-i18n="popular_routes_label">Quick Pick:</span>
+                  <button class="preset-pill" data-preset="Marudhamalai">Marudhamalai</button>
+                  <button class="preset-pill" data-preset="Pollachi">Pollachi</button>
+                  <button class="preset-pill" data-preset="Saravanampatti">Saravanampatti (IT)</button>
+                  <button class="preset-pill" data-preset="Airport">Airport (Sitra)</button>
+                  <button class="preset-pill" data-preset="Perur">Perur</button>
+                  <button class="preset-pill" data-preset="Singanallur">Singanallur</button>
+                </div>
+              </div>
+
+              <!-- Route Finder Results Container -->
+              <div id="route-results-container">
+                <!-- Default Prompt State -->
+                <div class="route-prompt-box" id="route-default-prompt">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"></polygon><circle cx="12" cy="12" r="3"></circle></svg>
+                  <h3 data-i18n="route_prompt_title">Select your destination above</h3>
+                  <p data-i18n="route_prompt_desc">Touch any destination from the dropdown or quick pick pills to view matching bus numbers, journey time, and complete intermediate stops diagram.</p>
+                </div>
+
+                <!-- Matching Route Card (Injected by script.js) -->
+                <div class="route-detail-card hidden" id="route-detail-card">
+                  <!-- Populated by JavaScript -->
+                </div>
+
+                <!-- No Route Found State -->
+                <div class="empty-state hidden" id="route-not-found">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="15" y1="9" x2="9" y2="15"></line><line x1="9" y1="9" x2="15" y2="15"></line></svg>
+                  <h3 data-i18n="no_route_title">No Direct Route Found</h3>
+                  <p data-i18n="no_route_desc">There is no direct bus operating between these two selected points in our demo schedule. We recommend taking a connecting bus via Gandhipuram or Ukkadam.</p>
+                  <button class="secondary-touch-btn" id="btn-reset-route-search" data-i18n="btn_try_different_route">Choose Another Destination</button>
+                </div>
+              </div>
+            </section>
+
+            <!-- VIEW 4: FARE INFORMATION SCREEN -->
+            <section class="view-panel" id="view-fares" aria-labelledby="fares-heading">
+              <div class="section-header">
+                <div class="header-left-title">
+                  <button class="back-home-btn" data-target="home" title="Go back to Home">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"></polyline></svg>
+                    <span data-i18n="btn_home">Home</span>
+                  </button>
+                  <div>
+                    <h1 class="section-title" id="fares-heading" data-i18n="fares_title">Fare Guide & Calculator</h1>
+                    <p class="section-sub" data-i18n="fares_sub">Estimated passenger ticket fares across Ordinary, Deluxe, and Air-Conditioned Volvo buses in Coimbatore</p>
+                  </div>
+                </div>
+                <div class="header-right-meta">
+                  <div class="demo-banner-small" data-i18n="demo_fares_disclaimer">⚠️ Demo Data Only • Not Official Tickets</div>
+                </div>
+              </div>
+
+              <!-- Government Free Travel Announcement Card -->
+              <div class="fare-banner-card">
+                <div class="fare-banner-icon">
+                  <span class="pink-bus-tag">TNSTC PINK BUS</span>
+                </div>
+                <div class="fare-banner-text">
+                  <h3 data-i18n="pink_bus_title">Zero-Ticket Fare for Women & Transgender Passengers</h3>
+                  <p data-i18n="pink_bus_desc">Under the Government of Tamil Nadu's welfare scheme, travel is completely free in all TNSTC Ordinary white-and-pink liveried city buses across Coimbatore. No ticket charge applies.</p>
+                </div>
+              </div>
+
+              <div class="fares-split-layout">
+                <!-- Interactive Sample Fare Estimator -->
+                <div class="fare-calc-panel">
+                  <h2 class="panel-box-title" data-i18n="calc_box_title">Sample Fare Estimator</h2>
+                  <p class="panel-box-desc" data-i18n="calc_box_desc">Calculate approximate sample ticket cost based on bus type and distance stage.</p>
+
+                  <div class="calc-form">
+                    <!-- Service Type Selector -->
+                    <div class="calc-field">
+                      <label class="field-label" data-i18n="calc_service_type">Select Bus Service Type:</label>
+                      <div class="service-type-toggle" role="radiogroup">
+                        <button class="service-opt-btn active" data-service="ordinary">
+                          <span class="opt-title" data-i18n="opt_ordinary">Ordinary</span>
+                          <span class="opt-desc" data-i18n="opt_ordinary_sub">White & Pink</span>
+                        </button>
+                        <button class="service-opt-btn" data-service="deluxe">
+                          <span class="opt-title" data-i18n="opt_deluxe">Deluxe</span>
+                          <span class="opt-desc" data-i18n="opt_deluxe_sub">Comfort Green</span>
+                        </button>
+                        <button class="service-opt-btn" data-service="volvo">
+                          <span class="opt-title" data-i18n="opt_volvo">AC Volvo</span>
+                          <span class="opt-desc" data-i18n="opt_volvo_sub">Low-Floor AC</span>
+                        </button>
+                      </div>
+                    </div>
+
+                    <!-- Distance Stage Range -->
+                    <div class="calc-field">
+                      <div class="slider-header">
+                        <label for="fare-stage-slider" class="field-label" data-i18n="calc_distance_stage">Journey Distance:</label>
+                        <span class="stage-value-badge" id="fare-stage-display">Stage 3 (Approx. 6 - 8 km)</span>
+                      </div>
+                      <input type="range" id="fare-stage-slider" min="1" max="10" value="3" class="kiosk-slider">
+                      <div class="slider-marks">
+                        <span>2 km</span>
+                        <span>8 km</span>
+                        <span>16 km</span>
+                        <span>24 km</span>
+                        <span>32+ km</span>
+                      </div>
+                    </div>
+
+                    <!-- Passenger Category -->
+                    <div class="calc-field">
+                      <label for="fare-passenger-type" class="field-label" data-i18n="calc_passenger_type">Passenger Category:</label>
+                      <select id="fare-passenger-type" class="kiosk-select">
+                        <option value="adult" selected data-i18n="pass_adult">General Adult Passenger</option>
+                        <option value="women" data-i18n="pass_women">Women / Transgender Passenger (Ordinary Free Scheme)</option>
+                        <option value="senior" data-i18n="pass_senior">Senior Citizen (60+ Years)</option>
+                        <option value="child" data-i18n="pass_child">Child (Age 5 - 12 Years, 50% Fare)</option>
+                        <option value="student" data-i18n="pass_student">Student with Valid Institution Pass (Free)</option>
+                      </select>
+                    </div>
+
+                    <!-- Calculated Fare Output Box -->
+                    <div class="calculated-fare-result">
+                      <div class="fare-calc-meta">
+                        <span class="fare-quote-label" data-i18n="calc_estimated_fare">Estimated Sample Fare:</span>
+                        <span class="fare-quote-sub" id="fare-quote-category">Ordinary Service • Adult</span>
+                      </div>
+                      <div class="fare-price-display">
+                        <span class="currency">₹</span>
+                        <span class="price-value" id="fare-price-num">8.00</span>
+                      </div>
+                    </div>
+                    
+                    <p class="fare-disclaimer-text" data-i18n="calc_footer_note">* Demonstration fare only. Real fares depend on stage stops published by TNSTC Coimbatore ticketing regulations.</p>
+                  </div>
+                </div>
+
+                <!-- Standard Stage Fare Matrix Table -->
+                <div class="fare-matrix-panel">
+                  <h2 class="panel-box-title" data-i18n="matrix_title">Standard Sample Fare Chart</h2>
+                  <p class="panel-box-desc" data-i18n="matrix_desc">Reference rate chart for typical stages departing from Gandhipuram Central.</p>
+
+                  <div class="matrix-table-wrap">
+                    <table class="fare-table" aria-label="Sample Fare Chart Table">
+                      <thead>
+                        <tr>
+                          <th scope="col" data-i18n="col_stage">Stage</th>
+                          <th scope="col" data-i18n="col_distance">Distance</th>
+                          <th scope="col" data-i18n="col_ordinary">Ordinary</th>
+                          <th scope="col" data-i18n="col_deluxe">Deluxe</th>
+                          <th scope="col" data-i18n="col_volvo">AC Volvo</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td>Stage 1</td>
+                          <td>0 - 2 km</td>
+                          <td>₹5.00</td>
+                          <td>₹11.00</td>
+                          <td>₹20.00</td>
+                        </tr>
+                        <tr>
+                          <td>Stage 2</td>
+                          <td>2 - 5 km</td>
+                          <td>₹6.00</td>
+                          <td>₹14.00</td>
+                          <td>₹25.00</td>
+                        </tr>
+                        <tr>
+                          <td>Stage 3</td>
+                          <td>5 - 8 km</td>
+                          <td>₹8.00</td>
+                          <td>₹18.00</td>
+                          <td>₹35.00</td>
+                        </tr>
+                        <tr>
+                          <td>Stage 4</td>
+                          <td>8 - 12 km</td>
+                          <td>₹10.00</td>
+                          <td>₹22.00</td>
+                          <td>₹45.00</td>
+                        </tr>
+                        <tr>
+                          <td>Stage 5</td>
+                          <td>12 - 16 km</td>
+                          <td>₹12.00</td>
+                          <td>₹26.00</td>
+                          <td>₹55.00</td>
+                        </tr>
+                        <tr>
+                          <td>Stage 6</td>
+                          <td>16 - 20 km</td>
+                          <td>₹14.00</td>
+                          <td>₹30.00</td>
+                          <td>₹65.00</td>
+                        </tr>
+                        <tr>
+                          <td>Stage 7+</td>
+                          <td>20+ km</td>
+                          <td>₹16.00</td>
+                          <td>₹35.00</td>
+                          <td>₹75.00</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+
+                  <div class="pass-info-box">
+                    <h4 data-i18n="pass_box_title">Daily & Monthly Travel Passes</h4>
+                    <p data-i18n="pass_box_desc">Unlimited One-Day Travel Pass: <strong>₹50.00</strong> (Ordinary & Deluxe buses). Available at the station counter or via TNSTC mobile app.</p>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            <!-- VIEW 5: TRAVEL INFORMATION & SAFETY SCREEN -->
+            <section class="view-panel" id="view-info" aria-labelledby="info-heading">
+              <div class="section-header">
+                <div class="header-left-title">
+                  <button class="back-home-btn" data-target="home" title="Go back to Home">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"></polyline></svg>
+                    <span data-i18n="btn_home">Home</span>
+                  </button>
+                  <div>
+                    <h1 class="section-title" id="info-heading" data-i18n="info_title">Travel Information & Passenger Assistance</h1>
+                    <p class="section-sub" data-i18n="info_sub">Station amenities, safety protocols, wheelchair access, lost property, and emergency contacts in Coimbatore</p>
+                  </div>
+                </div>
+                <div class="header-right-meta">
+                  <div class="demo-banner-small" data-i18n="demo_assistance_note">Coimbatore Smart City Transport Support</div>
+                </div>
+              </div>
+
+              <!-- Category Filter Tabs for Information -->
+              <div class="info-nav-tabs" role="tablist">
+                <button class="info-subtab active" data-infotab="safety" role="tab" aria-selected="true">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+                  <span data-i18n="subtab_safety">Safety Instructions</span>
+                </button>
+                <button class="info-subtab" data-infotab="accessibility" role="tab" aria-selected="false">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="4" r="2"></circle><path d="M19 13v-2c-1.54.02-3.09-.75-4.07-1.83l-1.29-1.43c-.43-.48-1.07-.74-1.72-.74s-1.29.26-1.72.74L8.91 9.17C7.93 10.25 6.38 11.02 4.84 11V13"></path><path d="M9 19l3-6 3 6"></path></svg>
+                  <span data-i18n="subtab_accessibility">Accessibility</span>
+                </button>
+                <button class="info-subtab" data-infotab="lostfound" role="tab" aria-selected="false">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line><path d="M11 8v6"></path><path d="M8 11h6"></path></svg>
+                  <span data-i18n="subtab_lostfound">Lost & Found</span>
+                </button>
+                <button class="info-subtab" data-infotab="announcements" role="tab" aria-selected="false">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path></svg>
+                  <span data-i18n="subtab_announcements">Notices & Disruptions</span>
+                </button>
+              </div>
+
+              <!-- Information Tab Content Panes -->
+              <div class="info-content-container">
+
+                <!-- 1. SAFETY -->
+                <div class="info-pane active" id="pane-safety">
+                  <div class="info-cards-grid">
+                    <div class="info-card">
+                      <div class="info-card-header">
+                        <span class="info-badge green">RULE 1</span>
+                        <h3 data-i18n="safety_rule1_title">Platform Yellow Line Safety</h3>
+                      </div>
+                      <p data-i18n="safety_rule1_desc">Always stand behind the tactile yellow safety border until the arriving bus comes to a complete halt and doors are opened by the conductor.</p>
+                    </div>
+
+                    <div class="info-card">
+                      <div class="info-card-header">
+                        <span class="info-badge green">RULE 2</span>
+                        <h3 data-i18n="safety_rule2_title">Boarding & Alighting Queue</h3>
+                      </div>
+                      <p data-i18n="safety_rule2_desc">Maintain orderly queues at designated bay markers. Let arriving passengers alight completely before boarding.</p>
+                    </div>
+
+                    <div class="info-card">
+                      <div class="info-card-header">
+                        <span class="info-badge blue">MONITORING</span>
+                        <h3 data-i18n="safety_cctv_title">24/7 CCTV Surveillance</h3>
+                      </div>
+                      <p data-i18n="safety_cctv_desc">Gandhipuram bus terminal is equipped with 20 high-definition security cameras monitored round the clock by Coimbatore City Police.</p>
+                    </div>
+
+                    <div class="info-card emergency-alert-card">
+                      <div class="info-card-header">
+                        <span class="info-badge red">EMERGENCY</span>
+                        <h3 data-i18n="emergency_contacts_title">Emergency Contact Helplines</h3>
+                      </div>
+                      <div class="emergency-numbers-list">
+                        <div class="contact-row">
+                          <span class="contact-name" data-i18n="contact_police">Police & Medical SOS:</span>
+                          <strong class="contact-val">112 / 100</strong>
+                        </div>
+                        <div class="contact-row">
+                          <span class="contact-name" data-i18n="contact_women">Women Safety Helpline:</span>
+                          <strong class="contact-val">1091</strong>
+                        </div>
+                        <div class="contact-row">
+                          <span class="contact-name" data-i18n="contact_mtc">TNSTC Grievance / Control:</span>
+                          <strong class="contact-val">0422-2433055</strong>
+                        </div>
+                        <div class="contact-row">
+                          <span class="contact-name" data-i18n="contact_kiosk">Station Master Gandhipuram:</span>
+                          <strong class="contact-val">+91 422 252 3011</strong>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- 2. ACCESSIBILITY -->
+                <div class="info-pane" id="pane-accessibility">
+                  <div class="info-cards-grid">
+                    <div class="info-card">
+                      <div class="info-card-header">
+                        <span class="info-badge blue">ACCESSIBLE BAYS</span>
+                        <h3 data-i18n="a11y_ramps_title">Wheelchair Ramps & Low-Floor Bays</h3>
+                      </div>
+                      <p data-i18n="a11y_ramps_desc">Bay 1 and Bay 4 feature zero-step boarding ramps designed specifically for electric and manual wheelchairs connecting directly to low-floor AC Volvo and deluxe buses.</p>
+                    </div>
+
+                    <div class="info-card">
+                      <div class="info-card-header">
+                        <span class="info-badge blue">TACTILE GUIDANCE</span>
+                        <h3 data-i18n="a11y_tactile_title">Tactile Paving for Visually Impaired</h3>
+                      </div>
+                      <p data-i18n="a11y_tactile_desc">Continuous bright yellow guiding tiles lead from the main Cross Cut Road pedestrian entrance directly to all 6 bus boarding platforms.</p>
+                    </div>
+
+                    <div class="info-card">
+                      <div class="info-card-header">
+                        <span class="info-badge green">PRIORITY</span>
+                        <h3 data-i18n="a11y_seating_title">Reserved Priority Seating</h3>
+                      </div>
+                      <p data-i18n="a11y_seating_desc">The front 8 seats in every public bus are legally reserved for senior citizens, expectant mothers, and passengers with disabilities. Co-passengers must kindly vacate upon request.</p>
+                    </div>
+
+                    <div class="info-card">
+                      <div class="info-card-header">
+                        <span class="info-badge cyan">AUDIO SUPPORT</span>
+                        <h3 data-i18n="a11y_audio_title">Bilingual Audio Assistance</h3>
+                      </div>
+                      <p data-i18n="a11y_audio_desc">This kiosk includes a high-contrast mode, adjustable font sizing (A/A+), and an automatic audio announcement button to read out arriving bus details aloud.</p>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- 3. LOST & FOUND -->
+                <div class="info-pane" id="pane-lostfound">
+                  <div class="info-cards-grid">
+                    <div class="info-card">
+                      <div class="info-card-header">
+                        <span class="info-badge amber">LOCATION</span>
+                        <h3 data-i18n="lost_booth_title">Station Property Office</h3>
+                      </div>
+                      <p data-i18n="lost_booth_desc">The Gandhipuram Lost & Found Counter is situated at Bay 2, Ground Floor (next to the Station Controller's cabin). Open 24 hours daily.</p>
+                    </div>
+
+                    <div class="info-card">
+                      <div class="info-card-header">
+                        <span class="info-badge amber">PROCEDURE</span>
+                        <h3 data-i18n="lost_claim_title">How to Claim Misplaced Belongings</h3>
+                      </div>
+                      <p data-i18n="lost_claim_desc">Present a valid government photo ID (Aadhaar, Voter ID, or Driving License) along with details of the bus number, approximate travel time, and item description.</p>
+                    </div>
+
+                    <div class="info-card">
+                      <div class="info-card-header">
+                        <span class="info-badge green">DIRECT HELPLINE</span>
+                        <h3 data-i18n="lost_helpline_title">Lost Property Helpline</h3>
+                      </div>
+                      <p data-i18n="lost_helpline_desc">Call our designated property assistance desk at <strong>+91 422 252 3012</strong> or email <em>lostfound.cbe@smartstop.demo.tn.gov.in</em>.</p>
+                    </div>
+
+                    <div class="info-card">
+                      <div class="info-card-header">
+                        <span class="info-badge blue">RETENTION POLICY</span>
+                        <h3 data-i18n="lost_retention_title">Safe Custody Retention</h3>
+                      </div>
+                      <p data-i18n="lost_retention_desc">Valuable documents, bags, and electronic items are securely cataloged and held for 30 days before being transferred to the Government District Treasury.</p>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- 4. NOTICES & SERVICE DISRUPTIONS -->
+                <div class="info-pane" id="pane-announcements">
+                  <div class="disruption-alerts-list">
+                    <div class="alert-notice-card warning">
+                      <div class="alert-header">
+                        <span class="alert-badge" data-i18n="alert_diversion_tag">ROUTE DIVERSION</span>
+                        <span class="alert-date">Updated Today, 14:15 IST</span>
+                      </div>
+                      <h4 data-i18n="alert_21g_title">Avinashi Road Elevated Corridor Diversion</h4>
+                      <p data-i18n="alert_21g_desc">Due to flyover expansion work near Lakshmi Mills & Nava India, Airport Route 1C operates with a minor 8-minute diversion via Kamarajar Road.</p>
+                    </div>
+
+                    <div class="alert-notice-card info">
+                      <div class="alert-header">
+                        <span class="alert-badge" data-i18n="alert_night_tag">NIGHT SERVICE</span>
+                        <span class="alert-date">Permanent Schedule</span>
+                      </div>
+                      <h4 data-i18n="alert_night_title">All-Night Feeder Buses (22:30 to 05:00)</h4>
+                      <p data-i18n="alert_night_desc">Hourly midnight feeder services operate connecting Gandhipuram to Coimbatore Junction Railway Station, Singanallur, and Ukkadam throughout the night.</p>
+                    </div>
+
+                    <div class="alert-notice-card celebration">
+                      <div class="alert-header">
+                        <span class="alert-badge" data-i18n="alert_metro_tag">TEMPLE SPECIAL</span>
+                        <span class="alert-date">Pilgrim Mobility</span>
+                      </div>
+                      <h4 data-i18n="alert_metro_title">High-Frequency Marudhamalai & Perur Specials</h4>
+                      <p data-i18n="alert_metro_desc">Direct express non-stop services to Marudhamalai Murugan Temple (Route 70) and Perur Pateeswarar Temple (Route 20A) depart every 8 minutes from Bay 1 & Bay 3.</p>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            </section>
+
+          </main>
+
+          <!-- ============================================================== -->
+          <!-- KIOSK IDLE TIMEOUT MODAL                                       -->
+          <!-- ============================================================== -->
+          <aside class="idle-modal hidden" id="idle-timeout-modal" role="dialog" aria-modal="true" aria-labelledby="idle-title">
+            <div class="idle-modal-box">
+              <div class="idle-icon-wrap">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+              </div>
+              <h3 id="idle-title" data-i18n="idle_title">Are you still using SmartStop?</h3>
+              <p data-i18n="idle_desc">This kiosk screen will automatically reset to the Welcome Home screen in <strong id="idle-countdown-seconds">15</strong> seconds to maintain passenger privacy.</p>
+              <div class="idle-actions">
+                <button class="primary-touch-btn" id="btn-idle-continue" data-i18n="idle_btn_continue">Yes, Continue Browsing</button>
+                <button class="secondary-touch-btn" id="btn-idle-reset-now" data-i18n="idle_btn_reset">Reset Now</button>
+              </div>
+            </div>
+          </aside>
+
+          <!-- ============================================================== -->
+          <!-- KIOSK FOOTER (TOUCH ASSIST BAR)                                -->
+          <!-- ============================================================== -->
+          <footer class="kiosk-footer" role="contentinfo">
+            <div class="footer-left">
+              <span class="footer-kiosk-id">Kiosk ID: <strong>CBE-GND-K02</strong></span>
+              <span class="footer-sep">•</span>
+              <span class="footer-agency" data-i18n="footer_agency">Tamil Nadu State Transport Corporation (Coimbatore) Ltd.</span>
+              <span class="footer-sep">•</span>
+              <span class="footer-demo-note" data-i18n="footer_demo_note">Simulated Demo Interface for HCI Project</span>
+            </div>
+
+            <div class="footer-right">
+              <span class="touch-hint">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2zm0 18a8 8 0 1 1 8-8 8 8 0 0 1-8 8z"></path><path d="M12 6v6l4 2"></path></svg>
+                <span data-i18n="footer_touch_hint">Touch any button on screen to operate</span>
+              </span>
+              <button class="footer-home-btn" id="btn-footer-home" title="Return to Home screen">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path></svg>
+                <span data-i18n="btn_home">Home</span>
+              </button>
+            </div>
+          </footer>
+
+        </div> <!-- /.screen-glass-rim -->
+      </div> <!-- /.totem-screen-chassis -->
+
+      <!-- 3. LOWER HARDWARE CONSOLE (PHYSICAL TOTEM MODULES) -->
+      <div class="totem-hardware-console">
+        <!-- Interactive NFC Smart Card Reader Pad -->
+        <div class="hardware-module nfc-module" id="totem-nfc-pad" role="button" tabindex="0" title="Click to simulate tapping a transit smart card">
+          <div class="nfc-target-ring">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+              <path d="M4 4a16 16 0 0 1 16 16"></path>
+              <path d="M4 9a11 11 0 0 1 11 11"></path>
+              <path d="M4 14a6 6 0 0 1 6 6"></path>
+              <circle cx="4" cy="20" r="1.5"></circle>
+            </svg>
+          </div>
+          <div class="nfc-labels">
+            <span class="nfc-title" data-i18n="totem_nfc_title">TAP SMART CARD / QR</span>
+            <span class="nfc-sub" data-i18n="totem_nfc_sub">TNSTC Smart Pass • Singara / NCMC Card</span>
+          </div>
+          <span class="nfc-touch-prompt" data-i18n="totem_touch_prompt">TOUCH TO TAP</span>
+        </div>
+
+        <!-- Braille & Platform Accessibility Plate -->
+        <div class="hardware-module braille-module" title="Tactile Braille Information Sign">
+          <div class="braille-dots" aria-hidden="true">
+            <span></span><span></span><span></span><span></span><span></span><span></span>
+          </div>
+          <div class="braille-text">
+            <span class="braille-title" data-i18n="totem_braille_title">BRAILLE ACCESSIBILITY</span>
+            <span class="braille-sub" data-i18n="totem_braille_sub">Audio button on screen • Low-floor Bay 1</span>
+          </div>
+        </div>
+
+        <!-- Physical Red Emergency SOS Panic Button -->
+        <div class="hardware-module sos-module" id="totem-sos-button" role="button" tabindex="0" title="Click to test emergency police alarm">
+          <div class="sos-physical-btn-wrapper">
+            <button class="sos-red-push-btn" aria-label="Emergency SOS Button">
+              <span class="sos-btn-core">SOS</span>
+            </button>
+          </div>
+          <div class="sos-labels">
+            <span class="sos-title" data-i18n="totem_sos_title">EMERGENCY SOS</span>
+            <span class="sos-sub" data-i18n="totem_sos_sub">Police Distress Intercom</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 4. HEAVY DUTY PEDESTAL BASE & AMBIENT FLOOR REFLECTION -->
+      <div class="totem-pedestal-base">
+        <div class="base-plate-branding">
+          <span>SMARTSTOP KIOSK UNIT #CBE-GND-02</span>
+          <span>COIMBATORE SMART CITY MOBILITY MISSION</span>
+        </div>
+      </div>
+      <div class="totem-ground-shadow"></div>
+
+    </div> <!-- /.kiosk-physical-totem -->
+
+    <!-- PHYSICAL SOS ALERT MODAL SIMULATION -->
+    <aside class="idle-modal hidden" id="totem-sos-modal" role="dialog" aria-modal="true" aria-labelledby="sos-alert-title">
+      <div class="idle-modal-box emergency-sos-popup">
+        <div class="sos-beacon-pulse">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+          </svg>
+        </div>
+        <h3 id="sos-alert-title" data-i18n="sos_modal_title">EMERGENCY SOS ACTIVATED</h3>
+        <p data-i18n="sos_modal_desc">Direct two-way audio intercom is now OPEN to Coimbatore City Police Control (Dial 112) and Gandhipuram Central Bus Station Master. Kiosk CCTV video stream flagged for priority dispatch.</p>
+        <div class="emergency-details-pill">
+          <span>📍 Location: Gandhipuram Central Stop • Platform Bay 2 • Kiosk K02</span>
+        </div>
+        <div class="idle-actions">
+          <button class="primary-touch-btn" id="btn-close-sos-modal" data-i18n="sos_modal_dismiss">Dismiss / Stand Down Alarm</button>
+        </div>
+      </div>
+    </aside>
+
+    <!-- PHYSICAL NFC TAP FEEDBACK TOAST -->
+    <div class="nfc-toast hidden" id="totem-nfc-toast" role="status" aria-live="polite">
+      <div class="nfc-toast-content">
+        <span class="nfc-toast-icon">💳</span>
+        <div class="nfc-toast-text">
+          <strong data-i18n="nfc_detected_title">TNSTC Coimbatore Smart Travel Card Detected!</strong>
+          <span data-i18n="nfc_detected_sub">Card #CBE-7729-1044 • Current Balance: ₹160.00 • Tap again to quick-pay ordinary bus fare</span>
+        </div>
+      </div>
+    </div>
+
+  </div> <!-- /.totem-scene -->
+
+  <!-- Script logic -->
+  <script src="script.js"></script>
+</body>
+</html>
+
